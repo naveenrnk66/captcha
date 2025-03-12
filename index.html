@@ -3,40 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAPTCHA Generator</title>
+    <title>Captcha Generator</title>
     <style>
+        /* Fullscreen Background */
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(45deg, #ff6b6b, #6b6bff, #6bff6b);
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s infinite linear;
         }
+
+        /* Rotating Gradient */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Glowing Dots */
+        .dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px white;
+            animation: float 6s infinite ease-in-out alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 0.8; }
+            100% { transform: translateY(-50px); opacity: 0.3; }
+        }
+
+        /* Captcha Box */
         .captcha-box {
-            display: inline-block;
-            padding: 10px;
+            position: relative;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
             font-size: 24px;
             font-weight: bold;
-            background-color: lightgray;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+        }
+
+        /* Hover Effect */
+        .captcha-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px white;
+        }
+
+        /* Captcha Text */
+        #captcha {
+            font-size: 28px;
+            font-weight: bold;
             letter-spacing: 3px;
+            color: #ffeb3b;
+            background: black;
+            padding: 10px;
+            display: inline-block;
+            border-radius: 5px;
+        }
+
+        /* Refresh Button */
+        .refresh-btn {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: #ffeb3b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .refresh-btn:hover {
+            background: #ffc107;
         }
     </style>
 </head>
 <body>
-    <h2>CAPTCHA Generator</h2>
-    <div class="captcha-box" id="captcha"></div>
-    <br><br>
-    <button onclick="generateCaptcha()">Refresh CAPTCHA</button>
 
+    <!-- Floating Dots -->
+    <script>
+        for (let i = 0; i < 30; i++) {
+            let dot = document.createElement("div");
+            dot.className = "dot";
+            document.body.appendChild(dot);
+            let size = Math.random() * 15 + 5;
+            dot.style.width = dot.style.height = size + "px";
+            dot.style.top = Math.random() * 100 + "vh";
+            dot.style.left = Math.random() * 100 + "vw";
+            dot.style.animationDuration = (Math.random() * 5 + 3) + "s";
+        }
+    </script>
+
+    <!-- Captcha Section -->
+    <div class="captcha-box">
+        <p>🚀 New Captcha on every refresh</p>
+        <div id="captcha">AB12XR</div>
+        <button class="refresh-btn" onclick="generateCaptcha()">🔄 Refresh Captcha</button>
+    </div>
+
+    <!-- Captcha Script -->
     <script>
         function generateCaptcha() {
-            let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            let captcha = '';
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            let captcha = "";
             for (let i = 0; i < 6; i++) {
                 captcha += chars.charAt(Math.floor(Math.random() * chars.length));
             }
-            document.getElementById('captcha').innerText = captcha;
+            document.getElementById("captcha").textContent = captcha;
         }
-        
         window.onload = generateCaptcha;
     </script>
+
 </body>
 </html>
